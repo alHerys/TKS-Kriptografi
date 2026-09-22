@@ -1,0 +1,10 @@
+.agents/
+.venv/
+.pytest_cache/
+skills-lock.json
+tests/
+frontend/tests/
+frontend/test-results/
+frontend/playwright-report/
+*.pyc
+*.class

@@ -92,6 +92,46 @@ npm run dev
 Buka alamat Vite yang tercetak di terminal. Vite meneruskan `/api` ke FastAPI.
 Jika port 8000 sedang digunakan, hentikan proses demo lama sebelum memulai server.
 
+## Deployment Heroku
+
+URL demo: https://tks-kriptografi-b920186fe783.herokuapp.com/
+
+Aplikasi `tks-kriptografi` menggunakan satu web dyno **Basic** pada stack
+`heroku-24`, tanpa database atau add-on. Buildpack `heroku/nodejs` membangun
+Svelte terlebih dahulu, lalu `heroku/python` menyiapkan FastAPI. `Procfile`
+menjalankan Uvicorn pada port yang disediakan Heroku. Node.js 24 dan Python 3.14
+ditetapkan melalui `package.json` root dan `.python-version`.
+
+Untuk menguji build deployment secara lokal, jalankan `npm run build` dari root
+repo. Perintah ini memasang dependensi frontend sesuai lockfile dan menghasilkan
+`frontend/dist/`. Jangan commit folder hasil build atau `node_modules/`.
+
+Untuk memperbarui deployment dari commit lokal:
+
+```bash
+heroku git:remote --app tks-kriptografi
+git push heroku main
+heroku ps --app tks-kriptografi
+heroku logs --tail --app tks-kriptografi
+```
+
+Basic tetap berjalan saat tidak ada pengunjung. Untuk menghentikan biaya web
+dyno saat demo tidak diperlukan, matikan prosesnya; URL tidak dapat diakses
+selama dyno dimatikan:
+
+```bash
+heroku ps:scale web=0 --app tks-kriptografi
+```
+
+Untuk menyalakannya kembali:
+
+```bash
+heroku ps:scale web=1:Basic --app tks-kriptografi
+```
+
+`app.json` juga mencatat urutan buildpack dan ukuran dyno untuk pembuatan aplikasi
+baru. File tersebut tidak otomatis mengubah pengaturan aplikasi yang sudah ada.
+
 ## Algoritma tetap mandiri
 
 Semua implementasi dan CLI berada di `algorithms/`. Subfolder setiap algoritma
