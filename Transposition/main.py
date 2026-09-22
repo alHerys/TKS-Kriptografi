@@ -7,47 +7,47 @@ from transposition import encrypt, decrypt
 
 def print_menu():
     print("\n" + "="*40)
-    print("      TRANSPOSITION CIPHER TOOL")
+    print("      TRANSPOSITION CIPHER")
     print("="*40)
-    print("1. Encrypt Message")
-    print("2. Decrypt Message")
+    print("1. Enkrip sebuah pesan")
+    print("2. Dekrip sebuah pesan")
     print("3. Exit")
     print("="*40)
 
 def main():
     while True:
         print_menu()
-        choice = input("Select an option (1-3): ").strip()
+        choice = input("Pilih Opsi (1-3): ").strip()
 
         if choice == '1':
             print("\n--- ENCRYPTION ---")
-            text = input("Enter plain text: ")
-            key = input("Enter secret keyword: ").strip()
+            text = input("Masukkan Plain Text: ")
+            key = input("Masukkan Secret key: ").strip()
             
             if not key.isalpha():
-                print("Error: Key should contain only alphabetic characters!")
+                print("Error: KEY HANYA BOLEH ALFABET!")
                 continue
 
             ciphertext = encrypt(text, key)
-            print(f"\nEncrypted Output: {ciphertext}")
+            print(f"\nHasil Enkripsi: {ciphertext}")
 
         elif choice == '2':
             print("\n--- DECRYPTION ---")
-            ciphertext = input("Enter cipher text: ").strip()
-            key = input("Enter secret keyword: ").strip()
+            ciphertext = input("Masukkan Cipher Text: ").strip()
+            key = input("Masukkan Secret Key: ").strip()
             
             if not key.isalpha():
-                print("Error: Key should contain only alphabetic characters!")
+                print("Error: KEY HANYA BOLEH ALFABET!")
                 continue
 
             plaintext = decrypt(ciphertext, key)
-            print(f"\nDecrypted Output: {plaintext}")
+            print(f"\n Hasil Dekripsi: {plaintext}")
 
         elif choice == '3':
-            print("\nExiting Transposition Cipher Tool. Goodbye!")
+            print("\n Bye bye!")
             break
         else:
-            print("Invalid option! Please enter 1, 2, or 3.")
+            print("Masukkan opsi yang benar, anak tk aja tawu.  masukkan 1, 2, or 3.")
 
 if __name__ == "__main__":
     main()

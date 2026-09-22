@@ -10,12 +10,12 @@ def get_keyword_order(key: str) -> list[int]:
     Returns the column ordering based on the alphabetical order of key characters.
     Example: key = "MEGABUCK" -> returns index order based on sorted characters.
     """
-    # Create list of tuples: (character, original_index)
+    # Mengidekskan Karakter
     indexed_key = [(char, i) for i, char in enumerate(key)]
-    # Sort primarily by character, secondarily by original index
+    # Urutkan berdasarkan karakter 
     sorted_key = sorted(indexed_key, key=lambda x: x[0])
     
-    # Extract original indices in their sorted order
+    # Memberikan urutan kepada Cipher/Plain text
     order = [item[1] for item in sorted_key]
     return order
 
@@ -26,26 +26,26 @@ def encrypt(plaintext: str, key: str) -> str:
     """
     key = key.upper()
     num_cols = len(key)
-    # Filter out spaces or keep them based on preference; here we keep letters/spaces
-    plaintext = plaintext.replace(" ", "_") # Replace spaces with underscores for clarity
+    #Ngefilter spasi, cuman kita tidak usah ngefilter spasi tapi menggantikannya dengan _
+    plaintext = plaintext.replace(" ", "_") 
     
     num_rows = math.ceil(len(plaintext) / num_cols)
     
-    # Pad plaintext with 'X' to fill the matrix completely
+    # Kasih x pada sisa kolom pada matriks di plaintext
     padded_len = num_rows * num_cols
     plaintext += 'X' * (padded_len - len(plaintext))
     
-    # Build grid row by row
+    # Buat matriks dari baris ke baris
     grid = []
     for r in range(num_rows):
         start = r * num_cols
         end = start + num_cols
         grid.append(list(plaintext[start:end]))
         
-    # Get alphabetical column order
+    # dapat urutan penyusunan matriks
     col_order = get_keyword_order(key)
     
-    # Read matrix column by column according to sorted key order
+    # baca matriks dari kolom per kolom dengan urutan daripada col_order
     ciphertext = []
     for col_idx in col_order:
         for row in grid:
@@ -64,10 +64,10 @@ def decrypt(ciphertext: str, key: str) -> str:
     
     col_order = get_keyword_order(key)
     
-    # Create an empty grid
+    # buat matriks kosong sebesar secret key
     grid = [['' for _ in range(num_cols)] for _ in range(num_rows)]
     
-    # Fill the grid column by column using the keyword order
+    # isi matriks dari kolom per kolom menggunakan cipher text 
     cipher_idx = 0
     for col_idx in col_order:
         for r in range(num_rows):
@@ -75,13 +75,13 @@ def decrypt(ciphertext: str, key: str) -> str:
                 grid[r][col_idx] = ciphertext[cipher_idx]
                 cipher_idx += 1
                 
-    # Read grid row by row to reconstruct plaintext
+    # bada dari kolom per kolom untuk konstruksi plain text
     plaintext = []
     for r in range(num_rows):
         plaintext.append("".join(grid[r]))
         
     decrypted_str = "".join(plaintext)
     
-    # Replace underscores back to spaces and strip trailing padding 'X's
+    # ganti _ dan hapus X yang mengisi ciphertext.
     decrypted_str = decrypted_str.replace("_", " ").rstrip('X')
     return decrypted_str
