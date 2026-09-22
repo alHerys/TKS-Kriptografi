@@ -36,7 +36,7 @@ test('multiline strings and HTML-looking source remain literal and safe on mobil
     '"""First line\n<img src=x onerror="window.injected=true">\nLast line"""\n\ndef demo():\n    return 42\n';
   await page.setViewportSize({ width: 390, height: 844 });
   await page.route('**/api/source/caesar', (route) =>
-    route.fulfill({ json: { path: 'Caesar/caesar.py', code } }),
+    route.fulfill({ json: { path: 'algorithms/Caesar/caesar.py', code } }),
   );
   await page.goto('/');
   await page.getByRole('button', { name: 'Kode Python' }).click();

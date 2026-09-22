@@ -8,20 +8,20 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-from Caesar import caesar
-from Vigenere import vigenere
-from Transposition import transposition
-from Substitution.python.Substitution import Substitution
-from playfair import playfair
+from algorithms.Caesar import caesar
+from algorithms.Vigenere import vigenere
+from algorithms.Transposition import transposition
+from algorithms.Substitution.python.Substitution import Substitution
+from algorithms.playfair import playfair
 
 ROOT = Path(__file__).resolve().parents[1]
 Algorithm = Literal["caesar", "vigenere", "substitution", "transposition", "playfair"]
 SOURCES = {
-    "caesar": "Caesar/caesar.py",
-    "vigenere": "Vigenere/vigenere.py",
-    "substitution": "Substitution/python/Substitution.py",
-    "transposition": "Transposition/transposition.py",
-    "playfair": "playfair/playfair.py",
+    "caesar": "algorithms/Caesar/caesar.py",
+    "vigenere": "algorithms/Vigenere/vigenere.py",
+    "substitution": "algorithms/Substitution/python/Substitution.py",
+    "transposition": "algorithms/Transposition/transposition.py",
+    "playfair": "algorithms/playfair/playfair.py",
 }
 CATALOG = [
     dict(id="caesar", name="Caesar", category="Pergeseran alfabet", key_type="number",

@@ -94,19 +94,23 @@ Jika port 8000 sedang digunakan, hentikan proses demo lama sebelum memulai serve
 
 ## Algoritma tetap mandiri
 
+Semua implementasi dan CLI berada di `algorithms/`. Subfolder setiap algoritma
+tetap dipertahankan, termasuk implementasi Java untuk Substitution. Setiap
+implementasi Python tetap mandiri dalam satu file, tanpa dependensi web.
+
 | Algoritma | File implementasi | Menjalankan CLI dari root repo |
 |---|---|---|
-| Caesar | `Caesar/caesar.py` | `python3 Caesar/main.py` |
-| Vigenere | `Vigenere/vigenere.py` | `python3 Vigenere/main.py` |
-| Substitution | `Substitution/python/Substitution.py` | `python3 Substitution/python/main.py` |
-| Transposition | `Transposition/transposition.py` | `python3 Transposition/main.py` |
-| Playfair | `playfair/playfair.py` | `python3 playfair/playfair.py` |
+| Caesar | `algorithms/Caesar/caesar.py` | `python3 algorithms/Caesar/main.py` |
+| Vigenere | `algorithms/Vigenere/vigenere.py` | `python3 algorithms/Vigenere/main.py` |
+| Substitution | `algorithms/Substitution/python/Substitution.py` | `python3 algorithms/Substitution/python/main.py` |
+| Transposition | `algorithms/Transposition/transposition.py` | `python3 algorithms/Transposition/main.py` |
+| Playfair | `algorithms/playfair/playfair.py` | `python3 algorithms/playfair/playfair.py` |
 
 Nama fungsi publik yang lama tetap tersedia dan hasilnya tetap berupa string.
 Tambahan parameter opsional `steps` mencatat perhitungan yang sama:
 
 ```python
-from Caesar.caesar import encrypt
+from algorithms.Caesar.caesar import encrypt
 
 print(encrypt("ABC", 3))  # DEF, seperti pemanggilan CLI biasa
 

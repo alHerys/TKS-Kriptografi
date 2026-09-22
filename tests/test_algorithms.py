@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from Caesar import caesar
-from Vigenere import vigenere
-from Substitution.python.Substitution import Substitution
-from Transposition import transposition
-from playfair import playfair
+from algorithms.Caesar import caesar
+from algorithms.Vigenere import vigenere
+from algorithms.Substitution.python.Substitution import Substitution
+from algorithms.Transposition import transposition
+from algorithms.playfair import playfair
 
 ROOT = Path(__file__).resolve().parents[1]
 KEY = "QWERTYUIOPASDFGHJKLZXCVBNM"
@@ -83,8 +83,8 @@ def test_transposition_legacy_cleanup_and_snapshots():
     assert sum(bool(c) for c in fill[-1]["data"]["grid"]) == len(cipher)
 
 
-@pytest.mark.parametrize("path", ["Caesar/caesar.py", "Vigenere/vigenere.py", "playfair/playfair.py",
-                                 "Transposition/transposition.py", "Substitution/python/Substitution.py"])
+@pytest.mark.parametrize("path", ["algorithms/Caesar/caesar.py", "algorithms/Vigenere/vigenere.py", "algorithms/playfair/playfair.py",
+                                 "algorithms/Transposition/transposition.py", "algorithms/Substitution/python/Substitution.py"])
 def test_single_file_standard_library_only(path):
     content = (ROOT / path).read_text()
     for node in ast.walk(ast.parse(content)):
@@ -98,11 +98,11 @@ def test_single_file_standard_library_only(path):
 
 
 @pytest.mark.parametrize("path,input_text,expected", [
-    ("Caesar/main.py", "3\n", "Terima kasih"),
-    ("Vigenere/main.py", "ABC\nB\n1\n", "BCD"),
-    ("Transposition/main.py", "3\n", "Bye bye"),
-    ("Substitution/python/main.py", "5\n", "TERIMA KASIH"),
-    ("playfair/playfair.py", "MONARCHY\nBALLOON\n", "IBSUPMNA"),
+    ("algorithms/Caesar/main.py", "3\n", "Terima kasih"),
+    ("algorithms/Vigenere/main.py", "ABC\nB\n1\n", "BCD"),
+    ("algorithms/Transposition/main.py", "3\n", "Bye bye"),
+    ("algorithms/Substitution/python/main.py", "5\n", "TERIMA KASIH"),
+    ("algorithms/playfair/playfair.py", "MONARCHY\nBALLOON\n", "IBSUPMNA"),
 ])
 def test_cli(path, input_text, expected):
     completed = subprocess.run([sys.executable, "-B", str(ROOT / path)], input=input_text,
