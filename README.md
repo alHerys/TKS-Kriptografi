@@ -106,7 +106,35 @@ Untuk menguji build deployment secara lokal, jalankan `npm run build` dari root
 repo. Perintah ini memasang dependensi frontend sesuai lockfile dan menghasilkan
 `frontend/dist/`. Jangan commit folder hasil build atau `node_modules/`.
 
-Untuk memperbarui deployment dari commit lokal:
+### CI/CD GitHub Actions
+
+Workflow [Test and deploy](https://github.com/alHerys/TKS-Kriptografi/actions/workflows/ci-cd.yml)
+berjalan pada PR ke `main` dan setiap push ke `main`:
+
+1. Pasang Python 3.14, Node.js 24, dan dependensi dari lockfile.
+2. Jalankan tes Python/API, pemeriksaan format, build Svelte, dan tes browser Chromium.
+3. Hanya jika semua pemeriksaan lolos pada `main`, push commit yang diuji ke Heroku.
+4. Periksa URL publik serta enkripsi, dekripsi, trace, dan kode sumber kelima algoritma.
+
+PR tidak mendapatkan credential deployment dan tidak melakukan deploy. Deployment
+diserialkan agar build tidak saling menimpa; commit yang sudah tertinggal dari
+`main` dilewati. Kegagalan tes mempertahankan versi produksi sebelumnya. Kegagalan
+smoke test setelah rilis menandai workflow gagal, tetapi tidak melakukan rollback
+otomatis. Trace browser yang gagal disimpan sebagai artifact selama tujuh hari.
+
+Repository memerlukan Actions secrets **`HEROKU_API_KEY`**, berisi OAuth token
+Heroku khusus deployment dengan scope `identity,write`, dan **`HEROKU_EMAIL`**,
+berisi email pemilik token. Jangan masukkan token ke kode, commit, atau log.
+Token ini terpisah dari sesi CLI pribadi, dapat dicabut, dan perlu diganti jika
+dicabut/kedaluwarsa. Scope OAuth Heroku berlaku pada akun, bukan satu aplikasi;
+batasi akses tulis repo pada kolaborator yang dipercaya.
+
+Untuk deploy berikutnya, cukup commit perubahan lalu `git push origin main`.
+Workflow juga dapat dijalankan ulang dari tab Actions pada branch `main`.
+
+### Deployment manual (fallback)
+
+Jika perlu memperbarui deployment secara manual dari commit lokal yang sudah diuji:
 
 ```bash
 heroku git:remote --app tks-kriptografi

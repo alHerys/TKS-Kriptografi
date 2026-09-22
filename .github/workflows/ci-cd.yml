@@ -1,0 +1,100 @@
+name: Test and deploy
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python and browser tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install Python dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r requirements-lock.txt
+      - name: Test algorithms and API
+        run: .venv/bin/python -B -m pytest -q
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+      - name: Check frontend formatting
+        run: npm run format:check --prefix frontend
+      - name: Install Chromium
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Build and test the web app
+        working-directory: frontend
+        run: npm test
+      - name: Save browser failure traces
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-failures
+          path: frontend/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Heroku
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: heroku-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check this is still the latest main commit
+        id: latest
+        run: |
+          latest=$(git ls-remote origin refs/heads/main | cut -f1)
+          test -n "$latest"
+          if [ "$latest" = "$GITHUB_SHA" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Skipping outdated commit; a newer push will deploy after passing tests."
+          fi
+      - name: Push tested commit to Heroku
+        if: steps.latest.outputs.deploy == 'true'
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          if [ -z "$HEROKU_API_KEY" ] || [ -z "$HEROKU_EMAIL" ]; then
+            echo "::error::Add HEROKU_API_KEY and HEROKU_EMAIL Actions secrets before deploying."
+            exit 1
+          fi
+          git -c credential.helper= \
+            -c 'credential.helper=!f() { if [ "$1" = get ]; then printf "%s\n" "username=$HEROKU_EMAIL" "password=$HEROKU_API_KEY"; fi; }; f' \
+            push https://git.heroku.com/tks-kriptografi.git HEAD:refs/heads/main
+      - name: Verify the public deployment
+        if: steps.latest.outputs.deploy == 'true'
+        run: |
+          curl --fail --silent --show-error --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 \
+            https://tks-kriptografi-b920186fe783.herokuapp.com/ --output /dev/null
+          python3 scripts/smoke_deployment.py https://tks-kriptografi-b920186fe783.herokuapp.com
