@@ -1,0 +1,94 @@
+/* Official Catppuccin palette v1.8.0: https://github.com/catppuccin/palette */
+:root {
+  --ctp-base: #eff1f5;
+  --ctp-mantle: #e6e9ef;
+  --ctp-crust: #dce0e8;
+  --ctp-text: #4c4f69;
+  --ctp-subtext1: #5c5f77;
+  --ctp-surface0: #ccd0da;
+  --ctp-surface1: #bcc0cc;
+  --ctp-overlay0: #9ca0b0;
+  --ctp-mauve: #8839ef;
+  --ctp-teal: #179299;
+  --ctp-red: #d20f39;
+  --ctp-yellow: #df8e1d;
+  --ctp-peach: #fe640b;
+  --ctp-sky: #04a5e5;
+  --ctp-pink: #ea76cb;
+  --ctp-green: #40a02b;
+  --ctp-subtext0: #6c6f85;
+  --ctp-flamingo: #dd7878;
+  --ctp-blue: #1e66f5;
+  --ctp-overlay2: #7c7f93;
+  --ctp-sapphire: #209fb5;
+  --on-accent: var(--ctp-base);
+  color-scheme: light;
+  --page: var(--ctp-mantle);
+  --panel: var(--ctp-base);
+  --inset: var(--ctp-crust);
+  --text: var(--ctp-text);
+  --muted: var(--ctp-subtext1);
+  --line: var(--ctp-surface0);
+  --border-strong: var(--ctp-overlay0);
+  --accent: var(--ctp-mauve);
+  --accent-hover: color-mix(in srgb, var(--accent) 88%, var(--text));
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, var(--panel));
+  --target: var(--ctp-teal);
+  --target-soft: color-mix(in srgb, var(--target) 10%, var(--panel));
+  --error: var(--ctp-red);
+}
+
+:root[data-theme='mocha'] {
+  --ctp-base: #1e1e2e;
+  --ctp-mantle: #181825;
+  --ctp-crust: #11111b;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext1: #bac2de;
+  --ctp-surface0: #313244;
+  --ctp-surface1: #45475a;
+  --ctp-overlay0: #6c7086;
+  --ctp-mauve: #cba6f7;
+  --ctp-teal: #94e2d5;
+  --ctp-red: #f38ba8;
+  --ctp-yellow: #f9e2af;
+  --ctp-peach: #fab387;
+  --ctp-sky: #89dceb;
+  --ctp-pink: #f5c2e7;
+  --ctp-green: #a6e3a1;
+  --ctp-subtext0: #a6adc8;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-blue: #89b4fa;
+  --ctp-overlay2: #9399b2;
+  --ctp-sapphire: #74c7ec;
+  --on-accent: var(--ctp-crust);
+  color-scheme: dark;
+}
+
+/* System preference also works before JavaScript starts, or if storage is unavailable. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='latte']):not([data-theme='mocha']) {
+    --ctp-base: #1e1e2e;
+    --ctp-mantle: #181825;
+    --ctp-crust: #11111b;
+    --ctp-text: #cdd6f4;
+    --ctp-subtext1: #bac2de;
+    --ctp-surface0: #313244;
+    --ctp-surface1: #45475a;
+    --ctp-overlay0: #6c7086;
+    --ctp-mauve: #cba6f7;
+    --ctp-teal: #94e2d5;
+    --ctp-red: #f38ba8;
+    --ctp-yellow: #f9e2af;
+    --ctp-peach: #fab387;
+    --ctp-sky: #89dceb;
+    --ctp-pink: #f5c2e7;
+    --ctp-green: #a6e3a1;
+    --ctp-subtext0: #a6adc8;
+    --ctp-flamingo: #f2cdcd;
+    --ctp-blue: #89b4fa;
+    --ctp-overlay2: #9399b2;
+    --ctp-sapphire: #74c7ec;
+    --on-accent: var(--ctp-crust);
+    color-scheme: dark;
+  }
+}

@@ -1,0 +1,98 @@
+.stage {
+  padding: 8px 16px 0;
+  background: radial-gradient(var(--line) 0.7px, transparent 0.7px);
+  background-size: 20px 20px;
+}
+.scene-scroll {
+  overflow: auto;
+  max-height: 410px;
+  padding: 4px 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 240px;
+}
+.svg-label {
+  font-family: 'Geist', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--muted);
+  letter-spacing: 0.4px;
+}
+.svg-letter {
+  font-family: 'Geist Mono', monospace;
+  font-size: 19px;
+  fill: var(--text);
+}
+.svg-index {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  fill: var(--muted);
+}
+.letter-cell {
+  fill: var(--panel);
+  stroke: var(--border-strong);
+  stroke-width: 1;
+}
+.letter-cell.source {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+.letter-cell.target {
+  fill: var(--target-soft);
+  stroke: var(--target);
+  stroke-dasharray: 3 3;
+}
+.moving-letter rect {
+  fill: var(--accent);
+  stroke: var(--accent-hover);
+  stroke-width: 1;
+}
+.moving-letter text {
+  font-family: 'Geist Mono', monospace;
+  font-size: 20px;
+  fill: var(--on-accent);
+}
+.motion-path {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rule-outline {
+  fill: var(--accent);
+  fill-opacity: 0.2;
+  stroke: var(--accent);
+  stroke-dasharray: 5 4;
+  stroke-width: 1.5;
+}
+.destination {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.formula {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--page);
+  font-family: 'Geist Mono', monospace;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 15px;
+  margin: 0 8px 16px;
+  color: var(--text);
+}
+.scene-scroll:focus-visible {
+  outline-offset: -3px;
+}
+@media (min-width: 1600px) {
+  .scene-scroll {
+    max-height: 480px;
+  }
+}

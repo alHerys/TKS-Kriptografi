@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e6e9ef" />
+    <script>
+      // Apply an explicit preference before the first paint; otherwise CSS follows the OS.
+      try {
+        const theme = localStorage.getItem('crypto-theme');
+        if (theme === 'latte' || theme === 'mocha') document.documentElement.dataset.theme = theme;
+      } catch {
+        // Browsers that block storage still get the system theme.
+      }
+    </script>
+    <meta
+      name="description"
+      content="Pelajari lima algoritma kriptografi klasik melalui animasi langkah demi langkah dari kode Python."
+    />
+    <title>Lab Kriptografi</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
