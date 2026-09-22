@@ -1,4 +1,4 @@
-# Lab Kriptografi
+# Teknologi Keamanan Siber - Algoritma Dasar Kriptografi
 
 Lima algoritma kriptografi klasik dengan CLI Python dan web visualisasi interaktif:
 Caesar, Vigenere, Substitution, Columnar Transposition, dan Playfair.
