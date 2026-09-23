@@ -17,11 +17,11 @@ from algorithms.playfair import playfair
 ROOT = Path(__file__).resolve().parents[1]
 Algorithm = Literal["caesar", "vigenere", "substitution", "transposition", "playfair"]
 SOURCES = {
-    "caesar": "algorithms/Caesar/caesar.py",
-    "vigenere": "algorithms/Vigenere/vigenere.py",
-    "substitution": "algorithms/Substitution/python/Substitution.py",
-    "transposition": "algorithms/Transposition/transposition.py",
-    "playfair": "algorithms/playfair/playfair.py",
+    "caesar": "legacy/Caesar/caesar.py",
+    "vigenere": "legacy/Vigenere/vigenere.py",
+    "substitution": "legacy/Substitution/python/Substitution.py",
+    "transposition": "legacy/Transposition/transposition.py",
+    "playfair": "legacy/playfair/playfair.py",
 }
 CATALOG = [
     dict(id="caesar", name="Caesar", category="Pergeseran alfabet", key_type="number",

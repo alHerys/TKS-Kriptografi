@@ -41,7 +41,7 @@ def check_deployment(base_url):
             assert result["steps"][-1]["phase"] == "result"
         source = request("/api/source/" + algorithm)
         path = (ROOT / source["path"]).resolve()
-        assert path.is_relative_to(ROOT / "algorithms")
+        assert path.is_relative_to(ROOT / "legacy")
         assert source["code"] == path.read_text(encoding="utf-8"), algorithm
         print(f"{algorithm}: encryption, decryption, traces and source OK")
 

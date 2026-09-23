@@ -47,7 +47,14 @@ def test_random_key_has_no_server_session_dependency():
     assert fresh_client.post("/api/run", json=dict(algorithm="substitution", mode="decrypt", text=cipher, key=key)).json()["output"] == "HELLO"
 
 
-def test_source_is_exact_and_allowlisted():
+def test_legacy_source_is_exact_and_allowlisted():
+    assert SOURCES == {
+        "caesar": "legacy/Caesar/caesar.py",
+        "vigenere": "legacy/Vigenere/vigenere.py",
+        "substitution": "legacy/Substitution/python/Substitution.py",
+        "transposition": "legacy/Transposition/transposition.py",
+        "playfair": "legacy/playfair/playfair.py",
+    }
     for algorithm, path in SOURCES.items():
         response = client.get("/api/source/" + algorithm)
         assert response.status_code == 200

@@ -16,6 +16,8 @@ Dion, Keihan, Hery, Dhyty, dan Rakhman.
 Implementasi setiap algoritma tersedia secara mandiri di folder
 [algorithms](algorithms/).
 
+Versi CLI tanpa trace web tersedia di folder [legacy](legacy/).
+
 Contoh menjalankan Caesar: `python3 algorithms/Caesar/main.py`
 
 Dibuat untuk pembelajaran, bukan untuk mengamankan data nyata.

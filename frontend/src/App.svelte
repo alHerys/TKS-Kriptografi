@@ -460,8 +460,8 @@
                   >
                 </div>
                 <p class="source-note">
-                  Kode ini digunakan langsung untuk menghitung hasil dan mencatat langkah
-                  visualisasi.
+                  Versi CLI dari folder legacy, tanpa pencatatan langkah. Visualisasi memakai versi
+                  di folder algorithms.
                 </p>
                 <!-- svelte-ignore a11y_no_noninteractive_tabindex (Scrollable code must be keyboard accessible.) -->
                 <div class="code-scroll" tabindex="0" role="region" aria-label="Kode Python asli">

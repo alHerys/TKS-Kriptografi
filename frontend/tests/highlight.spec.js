@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('all Python files stay exact and highlighting follows both themes', async ({
+test('all legacy Python files stay exact and highlighting follows both themes', async ({
   page,
   request,
 }) => {
@@ -16,7 +16,10 @@ test('all Python files stay exact and highlighting follows both themes', async (
   ]) {
     await page.getByRole('navigation').getByRole('button', { name, exact: true }).click();
     const source = await (await request.get('/api/source/' + id)).json();
+    expect(source.path).toMatch(/^legacy\//);
+    expect(source.code).not.toContain('def _record(');
     await expect(page.locator('.source-meta strong')).toHaveText(source.path);
+    await expect(page.locator('.source-note')).toContainText('Versi CLI dari folder legacy');
     const code = await page.locator('.code-line > span:last-child').allTextContents();
     expect(code.map((line) => (line === ' ' ? '' : line)).join('\n')).toBe(source.code.trimEnd());
     await expect(page.locator('.hljs-keyword').first()).toHaveCSS('color', 'rgb(136, 57, 239)');
@@ -36,7 +39,7 @@ test('multiline strings and HTML-looking source remain literal and safe on mobil
     '"""First line\n<img src=x onerror="window.injected=true">\nLast line"""\n\ndef demo():\n    return 42\n';
   await page.setViewportSize({ width: 390, height: 844 });
   await page.route('**/api/source/caesar', (route) =>
-    route.fulfill({ json: { path: 'algorithms/Caesar/caesar.py', code } }),
+    route.fulfill({ json: { path: 'legacy/Caesar/caesar.py', code } }),
   );
   await page.goto('/');
   await page.getByRole('button', { name: 'Kode Python' }).click();
