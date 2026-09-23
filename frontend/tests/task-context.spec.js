@@ -88,12 +88,14 @@ test('normalization, filler, whitespace and empty legacy cleanup remain explicit
 });
 
 for (const width of [1366, 390]) {
-  test(`task goal and aligned characters stay synchronized at ${width}px`, async ({ page }) => {
+  test(`original message and aligned characters stay synchronized at ${width}px`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.getByRole('button', { name: 'Proses pesan', exact: false }).click();
-    await expect(page.locator('.task-summary')).toContainText('HALO DUNIA');
-    await expect(page.locator('.task-rule')).toContainText('3 posisi ke kanan');
+    await expect(page.locator('.task-summary')).toHaveText(/^Pesan awal\s*HALO DUNIA$/);
+    await expect(page.locator('.task-heading, .task-key, .task-rule')).toHaveCount(0);
     await page.getByRole('combobox', { name: 'Fase algoritma' }).selectOption('process');
     const next = page.getByRole('button', { name: 'Langkah berikutnya' });
     await next.dblclick();
@@ -120,6 +122,33 @@ for (const width of [1366, 390]) {
     await expect(page.locator('.task-summary')).toHaveCount(0);
   });
 }
+
+test('summary keeps only the original input for every algorithm and mode', async ({
+  page,
+  request,
+}) => {
+  const catalog = await (await request.get('/api/algorithms')).json();
+  await page.goto('/');
+  for (const item of catalog) {
+    await page
+      .getByRole('navigation', { name: 'Pilih algoritma' })
+      .getByRole('button', { name: item.name, exact: true })
+      .click();
+    for (const [mode, label, text] of [
+      ['Enkripsi', 'Pesan awal', item.text],
+      ['Dekripsi', 'Ciphertext', item.ciphertext],
+    ]) {
+      await page.getByRole('button', { name: mode, exact: true }).click();
+      await page.getByRole('button', { name: 'Proses pesan', exact: false }).click();
+      const summary = page.getByRole('region', { name: 'Pesan masukan' });
+      await expect(summary.locator(':scope > *')).toHaveCount(1);
+      await expect(summary.locator('.task-message > *')).toHaveCount(2);
+      await expect(summary.locator('span')).toHaveText(label);
+      await expect(summary.locator('code')).toHaveText(text);
+      await expect(page.locator('.task-heading, .task-key, .task-rule')).toHaveCount(0);
+    }
+  }
+});
 
 test('Playfair pairs and Transposition source positions are not presented as simple substitution', async ({
   page,

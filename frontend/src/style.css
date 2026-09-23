@@ -358,29 +358,7 @@ textarea[aria-invalid='true'] {
   background: var(--page);
   min-width: 0;
 }
-.task-heading {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 12px;
-}
-.task-heading h3 {
-  font-size: 13px;
-  font-weight: 600;
-}
-.task-heading p,
-.task-rule {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-.task-parameters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px 20px;
-  margin: 8px 0 5px;
-}
-.task-parameters p {
+.task-message {
   display: flex;
   align-items: baseline;
   gap: 8px;
@@ -388,22 +366,15 @@ textarea[aria-invalid='true'] {
   max-width: 100%;
   font-size: 11px;
 }
-.task-parameters span {
+.task-message span {
   color: var(--muted);
   flex-shrink: 0;
 }
-.task-message {
-  flex: 1 1 180px;
-}
-.task-parameters code {
+.task-message code {
   font-family: var(--mono);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre;
-}
-.task-key code {
-  overflow-wrap: anywhere;
-  white-space: normal;
 }
 .step-meta {
   display: flex;
